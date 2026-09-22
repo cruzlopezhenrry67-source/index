@@ -1,419 +1,761 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Feliz 21 de Marzo</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@600;700&display=swap');
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Flores Amarillas — Para Ti 💛</title>
+  
+  <!-- Google Fonts: Great Vibes, Playfair Display & Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  <style>
+    :root {
+      --gold-glow: #ffd447;
+      --gold-petal: #ffca28;
+      --gold-dark: #e67e22;
+      --center-brown: #3e2723;
+    }
 
-  body {
-    background: #1a0a2e;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    font-family: 'Playfair Display', serif;
-  }
+    * {
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
 
-  /* Fondo animado */
-  .bg-gradient {
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(ellipse at 50% 50%, #2d1060 0%, #1a0a2e 70%);
-    z-index: 0;
-  }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: radial-gradient(circle at 50% 20%, #152c1a 0%, #0c1c11 50%, #050d08 100%);
+      min-height: 100vh;
+      overflow: hidden;
+      color: #fff9e6;
+    }
 
-  /* Partículas flotantes */
-  .particles {
-    position: fixed;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-  }
+    .font-cursive {
+      font-family: 'Great Vibes', cursive;
+    }
 
-  .particle {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: #ffd700;
-    opacity: 0;
-    animation: floatUp var(--dur) ease-in infinite;
-    animation-delay: var(--delay);
-    left: var(--x);
-    bottom: -10px;
-  }
+    .font-serif {
+      font-family: 'Playfair Display', serif;
+    }
 
-  @keyframes floatUp {
-    0% { transform: translateY(0) scale(1); opacity: 0; }
-    10% { opacity: 0.8; }
-    90% { opacity: 0.3; }
-    100% { transform: translateY(-100vh) scale(0.3); opacity: 0; }
-  }
+    /* Ambient Warm Glow behind blooming flowers */
+    .bloom-aura {
+      position: absolute;
+      width: 140vw;
+      height: 90vh;
+      bottom: -15vh;
+      left: -20vw;
+      background: radial-gradient(ellipse at 50% 85%, rgba(255, 212, 71, 0.16) 0%, rgba(243, 156, 18, 0.08) 40%, transparent 75%);
+      pointer-events: none;
+      z-index: 2;
+      transition: opacity 2s ease;
+    }
 
-  /* Escena principal */
-  .scene {
-    position: relative;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100vw;
-    height: 100vh;
-  }
+    /* Flower stem sway animation */
+    .flower-plant {
+      position: absolute;
+      bottom: -5px;
+      transform-origin: bottom center;
+      transition: transform 1.8s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 1.5s ease;
+      animation: windSway var(--sway-dur, 4.2s) ease-in-out infinite alternate;
+      animation-delay: var(--sway-delay, 0s);
+      z-index: 5;
+    }
 
-  /* ===== FLORES ===== */
-  .flowers-container {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-  }
+    @keyframes windSway {
+      0% { transform: rotate(calc(var(--angle, 3.5) * -1deg)); }
+      100% { transform: rotate(calc(var(--angle, 3.5) * 1deg)); }
+    }
 
-  .flower {
-    position: absolute;
-    transform-origin: bottom center;
-    animation: growStem 1.5s ease-out forwards;
-    opacity: 0;
-  }
+    /* Blooming scaling animation when opened */
+    .flower-head {
+      transform-origin: center center;
+      transition: transform 1.6s cubic-bezier(0.34, 1.56, 0.64, 1), filter 1s ease;
+      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.45));
+    }
 
-  @keyframes growStem {
-    0% { transform: scaleY(0) translateY(20px); opacity: 0; }
-    100% { transform: scaleY(1) translateY(0); opacity: 1; }
-  }
+    .petals-spin {
+      animation: subtlePulse 5s ease-in-out infinite alternate;
+    }
 
-  .flower svg {
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-  }
+    @keyframes subtlePulse {
+      0% { transform: scale(0.98); }
+      100% { transform: scale(1.02); }
+    }
 
-  /* Pétalos abriéndose */
-  .petal {
-    transform-origin: center bottom;
-    animation: openPetal 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    animation-delay: var(--pd);
-    transform: rotate(var(--pr)) scaleY(0);
-  }
+    /* Fireflies and pollen particles */
+    .firefly {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, #fff 10%, #ffe066 50%, rgba(255, 204, 0, 0) 80%);
+      box-shadow: 0 0 10px #ffe57f, 0 0 20px rgba(255, 215, 64, 0.7);
+      pointer-events: none;
+      animation: floatFirefly linear infinite;
+    }
 
-  @keyframes openPetal {
-    0% { transform: rotate(var(--pr)) scaleY(0); }
-    60% { transform: rotate(var(--pr)) scaleY(1.1); }
-    100% { transform: rotate(var(--pr)) scaleY(1); }
-  }
+    @keyframes floatFirefly {
+      0% {
+        transform: translateY(105vh) translateX(0) scale(0.4);
+        opacity: 0;
+      }
+      15% { opacity: 0.95; }
+      85% { opacity: 0.8; }
+      100% {
+        transform: translateY(-8vh) translateX(var(--drift, 40px)) scale(1.2);
+        opacity: 0;
+      }
+    }
 
-  /* Centro de la flor */
-  .flower-center {
-    animation: popCenter 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    animation-delay: var(--cd);
-    transform: scale(0);
-    transform-origin: center;
-  }
+    /* Floating hearts & petals clicked by user */
+    .sparkle-tap {
+      position: absolute;
+      pointer-events: none;
+      font-size: var(--size, 20px);
+      animation: popAndFloat 1.6s ease-out forwards;
+      z-index: 50;
+      filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.7));
+    }
 
-  @keyframes popCenter {
-    0% { transform: scale(0); }
-    70% { transform: scale(1.2); }
-    100% { transform: scale(1); }
-  }
+    @keyframes popAndFloat {
+      0% {
+        transform: translate(-50%, -50%) scale(0.3) rotate(0deg);
+        opacity: 0;
+      }
+      20% {
+        transform: translate(-50%, -60%) scale(1.2) rotate(var(--rot, 15deg));
+        opacity: 1;
+      }
+      100% {
+        transform: translate(calc(-50% + var(--dx, 20px)), calc(-50% - 90px)) scale(0.8) rotate(calc(var(--rot, 15deg) * 2));
+        opacity: 0;
+      }
+    }
 
-  /* ===== MENSAJE CENTRAL ===== */
-  .message-box {
-    position: relative;
-    z-index: 20;
-    text-align: center;
-    opacity: 0;
-    animation: revealMessage 1.5s ease-out 2.8s forwards;
-  }
+    /* Frosted Romantic Glass Card */
+    .romantic-card {
+      background: rgba(18, 36, 23, 0.65);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 224, 130, 0.3);
+      box-shadow: 
+        0 20px 50px rgba(0, 0, 0, 0.65),
+        0 0 35px rgba(255, 215, 64, 0.15),
+        inset 0 0 25px rgba(255, 236, 179, 0.08);
+    }
 
-  @keyframes revealMessage {
-    0% { opacity: 0; transform: translateY(30px) scale(0.9); }
-    100% { opacity: 1; transform: translateY(0) scale(1); }
-  }
+    /* Shimmer effect for buttons and highlights */
+    .btn-glow {
+      background: linear-gradient(135deg, #ffd152 0%, #ffae19 50%, #e67e22 100%);
+      box-shadow: 0 6px 24px rgba(255, 174, 25, 0.45);
+      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
 
-  .date-text {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1rem, 3vw, 1.4rem);
-    color: #ffd700;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    margin-bottom: 12px;
-    opacity: 0.85;
-  }
+    .btn-glow:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 10px 30px rgba(255, 174, 25, 0.65);
+    }
 
-  .main-message {
-    font-family: 'Dancing Script', cursive;
-    font-size: clamp(3.5rem, 10vw, 7rem);
-    font-weight: 700;
-    background: linear-gradient(135deg, #ffe066 0%, #ffd700 40%, #ffb300 70%, #ffe066 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 1.1;
-    text-shadow: none;
-    filter: drop-shadow(0 0 30px rgba(255,215,0,0.4));
-    animation: shimmer 3s ease-in-out infinite 4s;
-  }
+    .btn-glow:active {
+      transform: translateY(1px) scale(0.98);
+    }
 
-  @keyframes shimmer {
-    0%, 100% { filter: drop-shadow(0 0 20px rgba(255,215,0,0.3)); }
-    50% { filter: drop-shadow(0 0 50px rgba(255,215,0,0.7)); }
-  }
+    /* Envelope pulse */
+    .envelope-glow {
+      animation: heartbeat 2.2s infinite ease-in-out;
+    }
 
-  .sub-message {
-    font-family: 'Dancing Script', cursive;
-    font-size: clamp(2rem, 6vw, 4rem);
-    font-weight: 600;
-    color: #fff0a0;
-    margin-top: 8px;
-    opacity: 0;
-    animation: revealSub 1.2s ease-out 3.8s forwards;
-  }
-
-  @keyframes revealSub {
-    0% { opacity: 0; transform: translateY(15px); }
-    100% { opacity: 0.95; transform: translateY(0); }
-  }
-
-  /* Decoración de líneas */
-  .deco-line {
-    width: 200px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #ffd700, transparent);
-    margin: 16px auto;
-    opacity: 0;
-    animation: revealLine 1s ease-out 3.3s forwards;
-  }
-
-  @keyframes revealLine {
-    0% { opacity: 0; width: 0; }
-    100% { opacity: 0.6; width: 200px; }
-  }
-
-  /* Corazones flotantes */
-  .hearts {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 5;
-  }
-
-  .heart {
-    position: absolute;
-    font-size: var(--hs);
-    opacity: 0;
-    animation: floatHeart var(--hd) ease-in-out infinite;
-    animation-delay: var(--hdelay);
-    left: var(--hx);
-    bottom: 10%;
-  }
-
-  @keyframes floatHeart {
-    0% { opacity: 0; transform: translateY(0) rotate(-10deg) scale(0.8); }
-    20% { opacity: 0.9; }
-    80% { opacity: 0.4; }
-    100% { opacity: 0; transform: translateY(-70vh) rotate(10deg) scale(1.2); }
-  }
-
-  /* Brillo orbital */
-  .glow-ring {
-    position: absolute;
-    border-radius: 50%;
-    border: 1px solid rgba(255,215,0,0.15);
-    animation: pulseRing 4s ease-in-out infinite;
-  }
-
-  @keyframes pulseRing {
-    0%, 100% { opacity: 0.1; transform: scale(0.95); }
-    50% { opacity: 0.4; transform: scale(1.05); }
-  }
-</style>
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.4)); }
+      50% { transform: scale(1.05); filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.75)); }
+    }
+  </style>
 </head>
-<body>
 
-<div class="bg-gradient"></div>
+<body class="relative w-full h-screen overflow-hidden flex flex-col justify-between items-center select-none">
 
-<!-- Partículas doradas -->
-<div class="particles" id="particles"></div>
+  <!-- Ambient Light and Fireflies Area -->
+  <div class="bloom-aura"></div>
+  <div id="firefliesContainer" class="fixed inset-0 pointer-events-none z-10"></div>
 
-<!-- Corazones -->
-<div class="hearts" id="hearts"></div>
-
-<!-- Flores decorativas -->
-<div class="flowers-container" id="flowersContainer"></div>
-
-<!-- Mensaje principal -->
-<div class="scene">
-  <!-- Anillos de brillo -->
-  <div class="glow-ring" style="width:500px;height:500px;animation-delay:0s;"></div>
-  <div class="glow-ring" style="width:700px;height:700px;animation-delay:1.5s;"></div>
-
-  <div class="message-box">
-    <div class="date-text">✦ Feliz 21 de Marzo ✦</div>
-    <div class="deco-line"></div>
-    <div class="main-message">Feliz<br>Primavera</div>
-    <div class="deco-line" style="animation-delay:3.5s;"></div>
-    <div class="sub-message">Te Quiero... 🌻</div>
+  <!-- Twinkling stars in deep night sky -->
+  <div class="fixed inset-0 pointer-events-none z-0 opacity-40">
+    <div class="absolute top-[8%] left-[15%] w-1 h-1 bg-yellow-100 rounded-full animate-ping" style="animation-duration: 3s"></div>
+    <div class="absolute top-[18%] right-[20%] w-1.5 h-1.5 bg-yellow-200 rounded-full animate-pulse" style="animation-duration: 4s"></div>
+    <div class="absolute top-[30%] left-[35%] w-1 h-1 bg-amber-100 rounded-full animate-ping" style="animation-duration: 5s"></div>
+    <div class="absolute top-[12%] right-[40%] w-1 h-1 bg-yellow-100 rounded-full animate-pulse" style="animation-duration: 2.5s"></div>
+    <div class="absolute top-[25%] left-[80%] w-1.5 h-1.5 bg-yellow-300 rounded-full animate-ping" style="animation-duration: 4.5s"></div>
   </div>
-</div>
 
-<script>
-// ===== PARTÍCULAS =====
-const particlesEl = document.getElementById('particles');
-for(let i = 0; i < 40; i++){
-  const p = document.createElement('div');
-  p.className = 'particle';
-  const dur = 4 + Math.random() * 6;
-  const delay = Math.random() * 8;
-  p.style.cssText = `--dur:${dur}s; --delay:${delay}s; --x:${Math.random()*100}%;`;
-  // Varied sizes
-  const s = 2 + Math.random() * 5;
-  p.style.width = s + 'px';
-  p.style.height = s + 'px';
-  // Some are star-shaped (just circles with glow)
-  if(Math.random() > 0.5) p.style.boxShadow = `0 0 6px 2px rgba(255,215,0,0.6)`;
-  particlesEl.appendChild(p);
-}
+  <!-- Music Toggle Floating Control -->
+  <button id="btnMusic" class="fixed top-4 right-4 z-40 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/40 border border-yellow-400/30 text-yellow-200 text-xs backdrop-blur-md hover:bg-black/60 transition shadow-lg">
+    <span id="musicIcon" class="text-sm">🎵</span>
+    <span id="musicText">Melodía</span>
+  </button>
 
-// ===== CORAZONES =====
-const heartsEl = document.getElementById('hearts');
-const heartChars = ['💛','🌻','✨','💫','🌼'];
-for(let i = 0; i < 12; i++){
-  const h = document.createElement('div');
-  h.className = 'heart';
-  const dur = 5 + Math.random() * 5;
-  const delay = 3 + Math.random() * 8;
-  const size = (1 + Math.random() * 1.5) + 'rem';
-  h.style.cssText = `--hd:${dur}s; --hdelay:${delay}s; --hx:${5+Math.random()*90}%; --hs:${size};`;
-  h.textContent = heartChars[Math.floor(Math.random()*heartChars.length)];
-  heartsEl.appendChild(h);
-}
+  <div id="introScreen" class="fixed inset-0 z-30 flex flex-col items-center justify-center p-6 text-center transition-opacity duration-1000">
+    <div class="envelope-glow cursor-pointer transition transform" id="btnOpenLetter">
+      
+      <!-- Romantic glowing gift envelope illustration -->
+      <div class="relative w-36 h-36 sm:w-44 sm:h-44 flex items-center justify-center">
+        <svg class="w-full h-full filter drop-shadow-2xl" viewBox="0 0 200 200" fill="none">
+          <!-- Outer gold glow -->
+          <circle cx="100" cy="100" r="88" fill="url(#envGlow)" opacity="0.45"/>
+          <!-- Envelope Body -->
+          <rect x="25" y="55" width="150" height="105" rx="16" fill="#f5eed6" stroke="#e0a93b" stroke-width="2.5"/>
+          <!-- Flap Fold Details -->
+          <path d="M26 58 L100 115 L174 58" stroke="#d49326" stroke-width="2.5" fill="#fcf8ed"/>
+          <path d="M26 158 L85 102" stroke="#d6bf85" stroke-width="1.8"/>
+          <path d="M174 158 L115 102" stroke="#d6bf85" stroke-width="1.8"/>
+          
+          <!-- Wax Seal with Sunflower icon -->
+          <circle cx="100" cy="115" r="23" fill="#d97706" stroke="#b45309" stroke-width="2.5" filter="drop-shadow(0 3px 6px rgba(0,0,0,0.3))"/>
+          <!-- Little Yellow Daisy on seal -->
+          <g transform="translate(100, 115) scale(0.65)">
+            <ellipse cx="0" cy="-14" rx="3.5" ry="8" fill="#fef08a" />
+            <ellipse cx="0" cy="14" rx="3.5" ry="8" fill="#fef08a" />
+            <ellipse cx="-14" cy="0" rx="8" ry="3.5" fill="#fef08a" />
+            <ellipse cx="14" cy="0" rx="8" ry="3.5" fill="#fef08a" />
+            <ellipse cx="-10" cy="-10" rx="4" ry="8" transform="rotate(-45 -10 -10)" fill="#fde047" />
+            <ellipse cx="10" cy="-10" rx="4" ry="8" transform="rotate(45 10 -10)" fill="#fde047" />
+            <ellipse cx="-10" cy="10" rx="4" ry="8" transform="rotate(45 -10 10)" fill="#fde047" />
+            <ellipse cx="10" cy="10" rx="4" ry="8" transform="rotate(-45 10 10)" fill="#fde047" />
+            <circle cx="0" cy="0" r="6" fill="#78350f" />
+          </g>
+          <defs>
+            <radialGradient id="envGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ffd54f"/>
+              <stop offset="100%" stop-color="#ffb300" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+        </svg>
+      </div>
 
-// ===== FLORES SVG =====
-const container = document.getElementById('flowersContainer');
+      <div class="mt-6 flex flex-col items-center">
+        <span class="inline-block px-4 py-1 rounded-full bg-amber-950/70 border border-amber-400/40 text-amber-200 text-xs font-semibold tracking-wider uppercase mb-2 backdrop-blur-md">
+          Alguien muy especial te dejó esto ✨
+        </span>
+        <h2 class="font-serif italic text-2xl sm:text-3xl text-amber-200 drop-shadow">
+          Tengo algo para ti...
+        </h2>
+        <p class="font-cursive text-3xl sm:text-4xl text-yellow-300 mt-1 drop-shadow-md">
+          Toca para abrir 💛
+        </p>
+      </div>
+    </div>
+  </div>
 
-function createFlower(x, y, size, delay, petalColor = '#FFD700', variant = 0) {
-  const wrapper = document.createElement('div');
-  wrapper.className = 'flower';
-  wrapper.style.cssText = `
-    left: ${x}%;
-    bottom: ${y}%;
-    width: ${size}px;
-    height: ${size * 1.4}px;
-    animation-delay: ${delay}s;
-  `;
+  <main id="cardContainer" class="relative z-20 w-full max-w-lg px-5 py-6 flex flex-col items-center justify-center opacity-0 pointer-events-none transition-all duration-1000 transform translate-y-6">
+    
+    <div class="romantic-card relative w-full rounded-3xl p-6 sm:p-8 text-center flex flex-col items-center">
+      
+      <!-- Gentle Yellow Bouquet Header Badge -->
+      <div class="flex items-center justify-center gap-2 mb-2">
+        <span class="text-xl">🌼</span>
+        <span class="text-[11px] uppercase tracking-[0.25em] text-yellow-300/85 font-medium">Un regalo para tu corazón</span>
+        <span class="text-xl">🌼</span>
+      </div>
 
-  const numPetals = variant === 0 ? 8 : 6;
-  const stemH = size * 0.7;
-  const cx = size / 2;
-  const cy = size * 0.55;
-  const petalLen = size * 0.38;
-  const petalW = size * 0.16;
-  const centerR = size * 0.13;
+      <!-- Recipient name: "Para ti" / "Para [Nombre]" -->
+      <div class="mb-3">
+        <p class="text-xs uppercase tracking-widest text-amber-200/60 font-semibold mb-0.5">Especialmente para</p>
+        <h1 id="txtPara" class="font-serif italic text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-amber-300 to-yellow-100 drop-shadow">
+          Para la mujer más hermosa
+        </h1>
+      </div>
 
-  let petalsHTML = '';
-  for(let i = 0; i < numPetals; i++) {
-    const angle = (360 / numPetals) * i;
-    const pd = delay + 0.8 + (i * 0.08);
-    petalsHTML += `
-      <ellipse
-        class="petal"
-        cx="${cx}"
-        cy="${cy - petalLen * 0.5}"
-        rx="${petalW}"
-        ry="${petalLen}"
-        fill="${petalColor}"
-        opacity="0.92"
-        style="--pr:${angle}deg; --pd:${pd}s; transform-origin:${cx}px ${cy}px;"
-      />`;
-  }
+      <!-- Divider flourish -->
+      <div class="w-2/3 h-[1px] bg-gradient-to-r from-transparent via-yellow-400/40 to-transparent my-2"></div>
 
-  const leafDelay = delay + 0.4;
-  const stemY1 = size * 1.35;
-  const stemY2 = cy;
+      <!-- Romantic Dedication Message -->
+      <div class="my-3 px-2 sm:px-4">
+        <p id="txtMensaje" class="font-serif text-base sm:text-lg text-amber-50/95 leading-relaxed italic drop-shadow-sm font-normal">
+          "Dicen que regalar flores amarillas es decirle a alguien que deseas que esté en tu vida para siempre, llenándola de luz, risas y calidez. Y sinceramente... no imagino mis días sin ti."
+        </p>
+      </div>
 
-  wrapper.innerHTML = `
-    <svg viewBox="0 0 ${size} ${size * 1.4}" xmlns="http://www.w3.org/2000/svg" overflow="visible">
-      <!-- Stem -->
-      <line x1="${cx}" y1="${stemY1}" x2="${cx}" y2="${stemY2}"
-        stroke="#4a8c3f" stroke-width="${size*0.04}" stroke-linecap="round"
-        style="animation:growStem 1.2s ease-out ${delay}s forwards; transform-origin: ${cx}px ${stemY1}px;"
-      />
-      <!-- Leaf left -->
-      <ellipse cx="${cx - size*0.14}" cy="${size*1.0}" rx="${size*0.1}" ry="${size*0.07}"
-        fill="#4a8c3f" opacity="0.8"
-        transform="rotate(-40 ${cx - size*0.14} ${size*1.0})"
-        style="animation:openPetal 0.8s ease-out ${leafDelay}s forwards; transform-origin:${cx}px ${size*1.1}px; transform:rotate(-40deg) scaleY(0);"
-      />
-      <!-- Leaf right -->
-      <ellipse cx="${cx + size*0.14}" cy="${size*0.85}" rx="${size*0.1}" ry="${size*0.07}"
-        fill="#4a8c3f" opacity="0.8"
-        transform="rotate(40 ${cx + size*0.14} ${size*0.85})"
-        style="animation:openPetal 0.8s ease-out ${leafDelay+0.15}s forwards; transform-origin:${cx}px ${size*0.95}px; transform:rotate(40deg) scaleY(0);"
-      />
-      <!-- Petals -->
-      ${petalsHTML}
-      <!-- Center dark -->
-      <circle class="flower-center" cx="${cx}" cy="${cy}" r="${centerR * 1.1}"
-        fill="#5c3a00"
-        style="--cd:${delay+1.2}s; transform-origin:${cx}px ${cy}px;"
-      />
-      <!-- Center bright -->
-      <circle class="flower-center" cx="${cx}" cy="${cy}" r="${centerR * 0.65}"
-        fill="#c8860a"
-        style="--cd:${delay+1.3}s; transform-origin:${cx}px ${cy}px;"
-      />
-      <!-- Center shine -->
-      <circle cx="${cx - centerR*0.2}" cy="${cy - centerR*0.2}" r="${centerR*0.2}"
-        fill="rgba(255,220,100,0.6)"
-        style="animation:popCenter 0.4s ease-out ${delay+1.35}s forwards; transform:scale(0); transform-origin:${cx}px ${cy}px;"
-      />
-    </svg>
-  `;
+      <!-- Divider flourish -->
+      <div class="w-1/3 h-[1px] bg-gradient-to-r from-transparent via-yellow-400/30 to-transparent my-2"></div>
 
-  container.appendChild(wrapper);
-}
+      <!-- Sender signature -->
+      <div class="mt-2 mb-3">
+        <p class="text-[11px] uppercase tracking-wider text-amber-300/60 font-medium mb-1">Con todo mi cariño,</p>
+        <p id="txtDe" class="font-cursive text-3xl sm:text-4xl text-yellow-300 drop-shadow">
+          De quien piensa en ti siempre ✨
+        </p>
+      </div>
 
-// Flores grandes en los costados
-const flowerData = [
-  // [x%, y%, size, delay, color, variant]
-  [2,  0, 110, 0.0, '#FFD700', 0],
-  [8,  0,  90, 0.2, '#FFC200', 1],
-  [14, 0, 100, 0.1, '#FFE040', 0],
-  [20, 0,  80, 0.3, '#FFD000', 1],
-  [26, 0,  70, 0.4, '#FFCA00', 0],
+      <!-- Mini Tap Cue -->
+      <p class="text-[11px] text-amber-200/50 mt-2 font-light flex items-center gap-1">
+        <span>✨</span> Toca cualquier parte de la pantalla para lanzar chispas y amor <span>💛</span>
+      </p>
 
-  [74, 0,  70, 0.4, '#FFD700', 1],
-  [80, 0,  80, 0.3, '#FFCA00', 0],
-  [86, 0, 100, 0.1, '#FFE040', 1],
-  [92, 0,  90, 0.2, '#FFC200', 0],
-  [97, 0, 110, 0.0, '#FFD700', 1],
+    </div>
 
-  // Flores más pequeñas intercaladas
-  [5,  0,  60, 0.5, '#FFE070', 1],
-  [11, 0,  65, 0.6, '#FFD700', 0],
-  [17, 0,  55, 0.7, '#FFBA00', 1],
-  [23, 0,  50, 0.8, '#FFE040', 0],
+    <!-- Action Bar: Share / Create customized link -->
+    <div class="mt-4 flex flex-wrap gap-2.5 justify-center items-center">
+      <button id="btnOpenCustomize" class="px-4 py-2 rounded-xl bg-emerald-950/60 hover:bg-emerald-900/80 border border-yellow-400/30 text-yellow-200 text-xs font-medium backdrop-blur-md transition flex items-center gap-1.5 shadow-lg">
+        <span>💌</span> Personalizar o enviar tuya
+      </button>
 
-  [77, 0,  50, 0.8, '#FFE040', 1],
-  [83, 0,  55, 0.7, '#FFBA00', 0],
-  [89, 0,  65, 0.6, '#FFD700', 1],
-  [95, 0,  60, 0.5, '#FFE070', 0],
+      <button id="btnShareWhatsApp" class="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white text-xs font-semibold backdrop-blur-md transition flex items-center gap-1.5 shadow-lg shadow-green-950/50">
+        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+        <span>Compartir por WhatsApp</span>
+      </button>
+    </div>
 
-  // Flores en la parte inferior central (más pequeñas)
-  [35, 0,  50, 1.0, '#FFD700', 0],
-  [40, 0,  45, 1.1, '#FFE040', 1],
-  [45, 0,  40, 1.2, '#FFC200', 0],
-  [50, 0,  45, 1.1, '#FFD700', 1],
-  [55, 0,  40, 1.2, '#FFE040', 0],
-  [60, 0,  45, 1.0, '#FFC200', 1],
-  [65, 0,  50, 0.9, '#FFD700', 0],
-];
+  </main>
 
-flowerData.forEach(f => createFlower(...f));
-</script>
+  <div id="flowerGarden" class="fixed inset-x-0 bottom-0 h-64 sm:h-80 pointer-events-none z-10 flex items-end justify-center overflow-hidden">
+    <!-- Real-time dynamically generated yellow sunflowers and blossoms -->
+  </div>
+
+  <div id="customizeModal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="bg-gradient-to-b from-[#132b1a] to-[#0a180e] border border-amber-400/40 rounded-3xl max-w-md w-full p-6 shadow-2xl relative text-amber-50">
+      
+      <button id="btnCloseModal" class="absolute top-4 right-4 text-amber-300/70 hover:text-amber-100 text-xl w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">
+        ✕
+      </button>
+
+      <div class="flex items-center gap-2 mb-4">
+        <span class="text-2xl">🌼</span>
+        <div>
+          <h3 class="font-serif italic text-lg font-bold text-yellow-200">Crea tu dedicatoria especial</h3>
+          <p class="text-[11px] text-amber-200/70">Personaliza y compártele el enlace para enamorarla</p>
+        </div>
+      </div>
+
+      <!-- Inspiration Quick Chips -->
+      <div class="mb-3">
+        <label class="text-[10px] font-semibold uppercase tracking-wider text-amber-300/80">Mensajes sugeridos:</label>
+        <div class="flex flex-wrap gap-1.5 mt-1">
+          <button type="button" class="preset-pill text-[11px] px-2.5 py-1 rounded-lg bg-amber-900/40 hover:bg-amber-600/40 border border-amber-400/30 text-amber-100 transition" data-msg="Dicen que las flores amarillas son para las personas que quieres en tu vida por siempre. Tú eres esa persona para mí 💛">
+            ✨ Amor para siempre
+          </button>
+          <button type="button" class="preset-pill text-[11px] px-2.5 py-1 rounded-lg bg-amber-900/40 hover:bg-amber-600/40 border border-amber-400/30 text-amber-100 transition" data-msg="No podía dejar pasar este día sin regalarte tus flores amarillas. Gracias por iluminar mi mundo con tu hermosa sonrisa 🌻">
+            🌻 Iluminas mi mundo
+          </button>
+          <button type="button" class="preset-pill text-[11px] px-2.5 py-1 rounded-lg bg-amber-900/40 hover:bg-amber-600/40 border border-amber-400/30 text-amber-100 transition" data-msg="Hoy te mando estas flores amarillas con un solo propósito: recordarte lo increíble, linda y especial que eres para mí 🌼">
+            💛 Eres increíble
+          </button>
+        </div>
+      </div>
+
+      <div class="space-y-3">
+        <div>
+          <label for="inputModalPara" class="block text-[11px] font-semibold uppercase tracking-wider text-amber-200 mb-1">Para (Su nombre o apodo lindo)</label>
+          <input id="inputModalPara" type="text" placeholder="Ej: Mi niña bonita / Vale" maxlength="35" class="w-full bg-black/40 border border-amber-500/30 rounded-xl px-3 py-2 text-sm text-yellow-100 focus:outline-none focus:border-amber-400">
+        </div>
+
+        <div>
+          <div class="flex justify-between items-center mb-1">
+            <label for="inputModalMsg" class="block text-[11px] font-semibold uppercase tracking-wider text-amber-200">Mensaje bonito</label>
+            <span id="modalCharCount" class="text-[10px] text-amber-300/60 font-mono">0/260</span>
+          </div>
+          <textarea id="inputModalMsg" rows="3" maxlength="260" placeholder="Escribe lo que sientes..." class="w-full bg-black/40 border border-amber-500/30 rounded-xl px-3 py-2 text-sm text-yellow-100 focus:outline-none focus:border-amber-400 resize-none"></textarea>
+        </div>
+
+        <div>
+          <label for="inputModalDe" class="block text-[11px] font-semibold uppercase tracking-wider text-amber-200 mb-1">Tu firma o nombre</label>
+          <input id="inputModalDe" type="text" placeholder="Ej: Tu admirador número uno" maxlength="35" class="w-full bg-black/40 border border-amber-500/30 rounded-xl px-3 py-2 text-sm text-yellow-100 focus:outline-none focus:border-amber-400">
+        </div>
+      </div>
+
+      <!-- Generated Link Box & Copy/WhatsApp buttons -->
+      <div class="mt-4 pt-3 border-t border-amber-500/20 flex flex-col gap-2">
+        <button id="btnCopyGeneratedLink" class="btn-glow text-amber-950 font-bold py-2.5 px-4 rounded-xl text-xs flex items-center justify-center gap-2">
+          <span>📋</span> Copiar enlace personalizado
+        </button>
+        <button id="btnShareModalWA" class="bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-2.5 px-4 rounded-xl text-xs flex items-center justify-center gap-2 transition">
+          <span>📲</span> Enviar directamente por WhatsApp
+        </button>
+      </div>
+
+      <div id="modalToast" class="hidden mt-2 text-[11px] py-1.5 px-3 rounded-lg text-center font-medium bg-amber-400/20 text-amber-200 border border-amber-400/40"></div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+      // Defaults
+      const DEFAULT_PARA = "Para la mujer más hermosa";
+      const DEFAULT_MSG = "Dicen que regalar flores amarillas es decirle a alguien que deseas que esté en tu vida para siempre, llenándola de luz, risas y calidez. Y sinceramente... no imagino mis días sin ti.";
+      const DEFAULT_DE = "De quien piensa en ti siempre ✨";
+
+      // Parse query params to allow customized links like ?para=Ale&de=Carlos&msg=...
+      const urlParams = new URLSearchParams(window.location.search);
+      const customPara = urlParams.get('para');
+      const customMsg = urlParams.get('msg');
+      const customDe = urlParams.get('de');
+
+      // Elements
+      const txtPara = document.getElementById('txtPara');
+      const txtMensaje = document.getElementById('txtMensaje');
+      const txtDe = document.getElementById('txtDe');
+      const introScreen = document.getElementById('introScreen');
+      const btnOpenLetter = document.getElementById('btnOpenLetter');
+      const cardContainer = document.getElementById('cardContainer');
+      const flowerGarden = document.getElementById('flowerGarden');
+      const firefliesContainer = document.getElementById('firefliesContainer');
+
+      // Modal Elements
+      const customizeModal = document.getElementById('customizeModal');
+      const btnOpenCustomize = document.getElementById('btnOpenCustomize');
+      const btnCloseModal = document.getElementById('btnCloseModal');
+      const inputModalPara = document.getElementById('inputModalPara');
+      const inputModalMsg = document.getElementById('inputModalMsg');
+      const inputModalDe = document.getElementById('inputModalDe');
+      const modalCharCount = document.getElementById('modalCharCount');
+      const btnCopyGeneratedLink = document.getElementById('btnCopyGeneratedLink');
+      const btnShareModalWA = document.getElementById('btnShareModalWA');
+      const btnShareWhatsApp = document.getElementById('btnShareWhatsApp');
+      const modalToast = document.getElementById('modalToast');
+
+      // Audio elements & Music State
+      const btnMusic = document.getElementById('btnMusic');
+      const musicIcon = document.getElementById('musicIcon');
+      const musicText = document.getElementById('musicText');
+
+      // Apply initial text from URL or defaults
+      const activePara = customPara ? customPara.trim() : DEFAULT_PARA;
+      const activeMsg = customMsg ? customMsg.trim() : DEFAULT_MSG;
+      const activeDe = customDe ? customDe.trim() : DEFAULT_DE;
+
+      txtPara.textContent = activePara;
+      txtMensaje.textContent = `"${activeMsg}"`;
+      txtDe.textContent = activeDe;
+
+      // Fill modal inputs with current active text
+      inputModalPara.value = customPara || "";
+      inputModalMsg.value = customMsg || DEFAULT_MSG;
+      inputModalDe.value = customDe || "";
+      modalCharCount.textContent = `${inputModalMsg.value.length}/260`;
+
+      // ---------- 1. ROMANTIC MUSIC SYNTHESIZER (Web Audio API) ----------
+      let audioCtx = null;
+      let isMusicPlaying = false;
+      let musicInterval = null;
+
+      function initAudio() {
+        if (!audioCtx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          audioCtx = new AudioContext();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+      }
+
+      // Music box romantic arpeggio notes (Frequencies in Hz: C4, E4, G4, B4, C5, E5, G5)
+      const romanceMelody = [
+        261.63, 329.63, 392.00, 493.88, 523.25, 392.00, 329.63,
+        293.66, 349.23, 440.00, 523.25, 587.33, 440.00, 349.23,
+        246.94, 329.63, 392.00, 493.88, 440.00, 392.00, 329.63,
+        261.63, 392.00, 523.25, 659.25, 523.25, 392.00, 329.63
+      ];
+      let noteIndex = 0;
+
+      function playMusicBoxNote(freq) {
+        if (!audioCtx || !isMusicPlaying) return;
+        try {
+          const now = audioCtx.currentTime;
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+
+          // Warm sine with bell-like envelope
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now);
+
+          // Attack and slow ringing decay
+          gain.gain.setValueAtTime(0.001, now);
+          gain.gain.exponentialRampToValueAtTime(0.18, now + 0.04);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.6);
+
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+
+          osc.start(now);
+          osc.stop(now + 1.8);
+        } catch (e) {
+          console.log(e);
+        }
+      }
+
+      function startRomanticMelody() {
+        initAudio();
+        isMusicPlaying = true;
+        musicIcon.textContent = "🔊";
+        musicText.textContent = "Sonando";
+
+        if (musicInterval) clearInterval(musicInterval);
+        musicInterval = setInterval(() => {
+          const freq = romanceMelody[noteIndex];
+          playMusicBoxNote(freq);
+          noteIndex = (noteIndex + 1) % romanceMelody.length;
+        }, 340);
+      }
+
+      function stopRomanticMelody() {
+        isMusicPlaying = false;
+        if (musicInterval) clearInterval(musicInterval);
+        musicIcon.textContent = "🔇";
+        musicText.textContent = "En pausa";
+      }
+
+      btnMusic.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (isMusicPlaying) {
+          stopRomanticMelody();
+        } else {
+          startRomanticMelody();
+        }
+      });
+
+      // ---------- 2. FLOWER GARDEN GENERATOR ----------
+      // Generates SVG yellow sunflowers and daisies that bloom and sway
+      function createGarden() {
+        flowerGarden.innerHTML = '';
+        const count = window.innerWidth < 640 ? 7 : 11;
+        
+        for (let i = 0; i < count; i++) {
+          const flower = document.createElement('div');
+          flower.className = 'flower-plant flex flex-col items-center';
+
+          // Varied natural heights and swaying
+          const height = Math.floor(Math.random() * 80) + 120;
+          const flowerSize = Math.floor(Math.random() * 26) + 56;
+          const swayDuration = (Math.random() * 2 + 3.6).toFixed(2);
+          const swayDelay = (Math.random() * -3).toFixed(2);
+          const swayAngle = (Math.random() * 2.5 + 2).toFixed(1);
+
+          flower.style.setProperty('--sway-dur', `${swayDuration}s`);
+          flower.style.setProperty('--sway-delay', `${swayDelay}s`);
+          flower.style.setProperty('--angle', `${swayAngle}`);
+          
+          // Spread across width
+          const leftPercent = ((i / (count - 1)) * 94 + (Math.random() * 4 - 2)).toFixed(1);
+          flower.style.left = `${leftPercent}%`;
+
+          // Generate detailed Yellow Blossom SVG
+          flower.innerHTML = `
+            <div class="flower-head" style="width: ${flowerSize}px; height: ${flowerSize}px; transform: scale(0.2); opacity: 0;">
+              <svg class="w-full h-full petals-spin" viewBox="0 0 100 100">
+                <defs>
+                  <linearGradient id="petalGrad${i}" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#fff176" />
+                    <stop offset="50%" stop-color="#fbc02d" />
+                    <stop offset="100%" stop-color="#f57f17" />
+                  </linearGradient>
+                </defs>
+                <!-- 12 Petals arrayed in circle -->
+                <g fill="url(#petalGrad${i})" stroke="#d88914" stroke-width="0.7">
+                  <ellipse cx="50" cy="18" rx="7.5" ry="17" />
+                  <ellipse cx="50" cy="82" rx="7.5" ry="17" />
+                  <ellipse cx="18" cy="50" rx="17" ry="7.5" />
+                  <ellipse cx="82" cy="50" rx="17" ry="7.5" />
+                  <ellipse cx="27" cy="27" rx="7.5" ry="17" transform="rotate(-45 27 27)" fill="#ffd54f" />
+                  <ellipse cx="73" cy="27" rx="7.5" ry="17" transform="rotate(45 73 27)" fill="#ffd54f" />
+                  <ellipse cx="27" cy="73" rx="7.5" ry="17" transform="rotate(45 27 73)" fill="#ffd54f" />
+                  <ellipse cx="73" cy="73" rx="7.5" ry="17" transform="rotate(-45 73 73)" fill="#ffd54f" />
+                  <ellipse cx="36" cy="21" rx="6.5" ry="16" transform="rotate(-22 36 21)" fill="#ffe082" />
+                  <ellipse cx="64" cy="21" rx="6.5" ry="16" transform="rotate(22 64 21)" fill="#ffe082" />
+                  <ellipse cx="21" cy="36" rx="16" ry="6.5" transform="rotate(-22 21 36)" fill="#ffe082" />
+                  <ellipse cx="79" cy="36" rx="16" ry="6.5" transform="rotate(22 79 36)" fill="#ffe082" />
+                </g>
+                <!-- Sunflower Dark Textured Seed Center -->
+                <circle cx="50" cy="50" r="14" fill="#4e2c0b" stroke="#78350f" stroke-width="1.8" />
+                <circle cx="50" cy="50" r="10" fill="#2d1704" />
+                <circle cx="47" cy="47" r="1.3" fill="#fbc02d" opacity="0.9" />
+                <circle cx="53" cy="49" r="1.1" fill="#ffe082" opacity="0.8" />
+                <circle cx="50" cy="53" r="1.2" fill="#ffd54f" opacity="0.9" />
+              </svg>
+            </div>
+            <!-- Stem and Leaves -->
+            <div class="relative w-1.5 bg-gradient-to-t from-emerald-950 via-emerald-800 to-green-600 rounded-t-full" style="height: ${height}px;">
+              <div class="absolute w-4 h-2.5 bg-emerald-700 rounded-tl-full rounded-br-full -left-3 top-1/3 -rotate-12 opacity-85 shadow"></div>
+              <div class="absolute w-4 h-2.5 bg-emerald-700 rounded-tr-full rounded-bl-full -right-3 top-2/3 rotate-12 opacity-85 shadow"></div>
+            </div>
+          `;
+          flowerGarden.appendChild(flower);
+        }
+      }
+      createGarden();
+
+      // Trigger blooming effect
+      function bloomFlowers() {
+        const heads = document.querySelectorAll('.flower-head');
+        heads.forEach((head, index) => {
+          setTimeout(() => {
+            head.style.transform = 'scale(1)';
+            head.style.opacity = '1';
+          }, index * 90);
+        });
+      }
+
+      // ---------- 3. FIREFLIES AND POLLEN PARTICLES ----------
+      function createFirefly() {
+        const p = document.createElement('div');
+        p.className = 'firefly';
+        const size = Math.floor(Math.random() * 6) + 3;
+        p.style.width = `${size}px`;
+        p.style.height = `${size}px`;
+        p.style.left = `${Math.random() * 100}%`;
+        p.style.setProperty('--drift', `${(Math.random() * 120) - 60}px`);
+        const duration = (Math.random() * 7 + 6).toFixed(1);
+        p.style.animationDuration = `${duration}s`;
+        firefliesContainer.appendChild(p);
+
+        setTimeout(() => {
+          if (p && p.parentNode) p.remove();
+        }, duration * 1000);
+      }
+
+      setInterval(createFirefly, 350);
+      for (let i = 0; i < 18; i++) {
+        setTimeout(createFirefly, i * 160);
+      }
+
+      // ---------- 4. TAP TO SPAWN PETALS & HEARTS ----------
+      const cuteEmojis = ['💛', '✨', '🌼', '💛', '🌻', '✨', '💖'];
+      function spawnSparkle(x, y) {
+        const spark = document.createElement('div');
+        spark.className = 'sparkle-tap';
+        spark.textContent = cuteEmojis[Math.floor(Math.random() * cuteEmojis.length)];
+        spark.style.left = `${x}px`;
+        spark.style.top = `${y}px`;
+        spark.style.setProperty('--dx', `${(Math.random() * 80) - 40}px`);
+        spark.style.setProperty('--rot', `${(Math.random() * 60) - 30}deg`);
+        spark.style.setProperty('--size', `${Math.floor(Math.random() * 14) + 18}px`);
+        document.body.appendChild(spark);
+
+        setTimeout(() => {
+          if (spark && spark.parentNode) spark.remove();
+        }, 1600);
+      }
+
+      window.addEventListener('pointerdown', (e) => {
+        // Prevent trigger if clicking buttons or inputs
+        if (e.target.closest('button') || e.target.closest('input') || e.target.closest('textarea')) return;
+        spawnSparkle(e.clientX, e.clientY);
+        // Play single soft chime if music is on
+        if (isMusicPlaying) {
+          playMusicBoxNote(523.25 + (Math.random() * 200 - 100));
+        }
+      });
+
+      // ---------- 5. OPEN LETTER EVENT ----------
+      btnOpenLetter.addEventListener('click', () => {
+        // Start melody
+        startRomanticMelody();
+
+        // Fade out envelope
+        introScreen.style.opacity = '0';
+        setTimeout(() => {
+          introScreen.style.display = 'none';
+          
+          // Bloom the yellow flowers
+          bloomFlowers();
+
+          // Show Card with smooth entrance
+          cardContainer.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-6');
+          cardContainer.classList.add('opacity-100', 'translate-y-0');
+
+          // Celebrate with a burst of sparkles
+          for (let i = 0; i < 12; i++) {
+            setTimeout(() => {
+              const rx = (window.innerWidth / 2) + (Math.random() * 240 - 120);
+              const ry = (window.innerHeight / 2) + (Math.random() * 240 - 120);
+              spawnSparkle(rx, ry);
+            }, i * 100);
+          }
+        }, 800);
+      });
+
+      // ---------- 6. SHARE & CUSTOMIZE MODAL LOGIC ----------
+      function showToast(msg) {
+        modalToast.textContent = msg;
+        modalToast.classList.remove('hidden');
+        setTimeout(() => {
+          modalToast.classList.add('hidden');
+        }, 3000);
+      }
+
+      btnOpenCustomize.addEventListener('click', () => {
+        customizeModal.classList.remove('opacity-0', 'pointer-events-none');
+        customizeModal.classList.add('opacity-100');
+      });
+
+      btnCloseModal.addEventListener('click', () => {
+        customizeModal.classList.add('opacity-0', 'pointer-events-none');
+        customizeModal.classList.remove('opacity-100');
+      });
+
+      // Presets chips in modal
+      document.querySelectorAll('.preset-pill').forEach(btn => {
+        btn.addEventListener('click', () => {
+          inputModalMsg.value = btn.getAttribute('data-msg');
+          modalCharCount.textContent = `${inputModalMsg.value.length}/260`;
+        });
+      });
+
+      inputModalMsg.addEventListener('input', () => {
+        modalCharCount.textContent = `${inputModalMsg.value.length}/260`;
+      });
+
+      function buildShareableUrl() {
+        const para = inputModalPara.value.trim() || activePara;
+        const msg = inputModalMsg.value.trim() || activeMsg;
+        const de = inputModalDe.value.trim() || activeDe;
+
+        const baseUrl = window.location.origin + window.location.pathname;
+        const params = new URLSearchParams();
+        if (para) params.set('para', para);
+        if (msg) params.set('msg', msg);
+        if (de) params.set('de', de);
+
+        return `${baseUrl}?${params.toString()}`;
+      }
+
+      // Copy custom link with fallback
+      btnCopyGeneratedLink.addEventListener('click', () => {
+        const fullUrl = buildShareableUrl();
+        const tempInput = document.createElement('textarea');
+        tempInput.value = fullUrl;
+        tempInput.style.position = 'fixed';
+        tempInput.style.left = '-9999px';
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        try {
+          document.execCommand('copy');
+          showToast("¡Enlace copiado! Pégaselo en WhatsApp o chat 💛");
+        } catch (err) {
+          showToast("No se pudo copiar automáticamente.");
+        }
+        document.body.removeChild(tempInput);
+      });
+
+      // Share directly to WhatsApp from modal
+      btnShareModalWA.addEventListener('click', () => {
+        const fullUrl = buildShareableUrl();
+        const para = inputModalPara.value.trim() || "ti";
+        const waText = `🌼 Tengo unas flores amarillas y un mensaje muy especial para ${para}... Ábrelo aquí: ${fullUrl}`;
+        const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(waText)}`;
+        window.open(waUrl, '_blank');
+      });
+
+      // Share directly from main card action bar
+      btnShareWhatsApp.addEventListener('click', () => {
+        const currentUrl = window.location.href;
+        const waText = `🌼 Tengo unas flores amarillas y un mensaje para ti... Ábrelo aquí: ${currentUrl}`;
+        const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(waText)}`;
+        window.open(waUrl, '_blank');
+      });
+
+    });
+  </script>
 </body>
 </html>
